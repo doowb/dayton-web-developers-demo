@@ -49,7 +49,7 @@ module.exports = function(app) {
   });
 
   app.task('copy-js', function() {
-    return app.copy('**/*', paths.dest('js').path, {cwd: paths.src('js').path})
+    return app.copy('**/*', paths.dest('assets/js').path, {cwd: paths.src('js').path})
       .pipe(browserSync.stream());
   });
 
@@ -60,7 +60,7 @@ module.exports = function(app) {
       '!**/bootstrap-theme.*',
       '!**/*.map'
     ],
-    paths.dest('vendor/bootstrap').path);
+    paths.dest('assets/vendor/bootstrap').path);
   });
 
   app.task('copy-jquery', function() {
@@ -68,7 +68,7 @@ module.exports = function(app) {
       'node_modules/jquery/dist/jquery.js',
       'node_modules/jquery/dist/jquery.min.js'
     ],
-    paths.dest('vendor/jquery').path);
+    paths.dest('assets/vendor/jquery').path);
   });
 
   app.task('copy-font-awesome', function() {
@@ -80,7 +80,7 @@ module.exports = function(app) {
       '!node_modules/font-awesome/*.md',
       '!node_modules/font-awesome/*.json'
     ],
-    paths.dest('vendor/font-awesome').path);
+    paths.dest('assets/vendor/font-awesome').path);
   });
 
   app.task('clean', function(cb) {
@@ -94,12 +94,12 @@ module.exports = function(app) {
   app.task('less', function() {
     return app.src('site.less', {cwd: paths.src('less').path})
       .pipe(utils.less())
-      .pipe(app.dest(paths.dest('css')))
+      .pipe(app.dest(paths.dest('assets/css')))
       .pipe(browserSync.stream());
   });
 
   app.task('push', function() {
-    return app.src(paths.dest('**/*').path)
+    return app.src(paths.dest('**/*').path, {dot: true})
       .pipe(utils.ghPages());
   });
 
